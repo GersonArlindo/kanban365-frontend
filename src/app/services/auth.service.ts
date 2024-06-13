@@ -38,4 +38,14 @@ export class AuthService {
       catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
+
+  checkEmail(email: any) : Observable<any | void>{
+    return this.http.get<any>(`${environment.API_URL}user/check-email/${email}`)
+      .pipe(
+        map((res: any) => {
+          return res
+        }),
+        catchError((err) => this.HandlerErrorSrv.handlerError(err))
+      )
+  }
 }

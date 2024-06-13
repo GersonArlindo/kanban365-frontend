@@ -30,6 +30,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { AuthInterceptor } from '../app/services/auth.interceptor';
 import { ProfileModalFrameComponent } from './shared/profile-modal-frame/profile-modal-frame.component';
 import { ProfileUserModalFrameComponent } from './shared/profile-user-modal-frame/profile-user-modal-frame.component';
+import { PhoneMaskDirective } from './directives/phone-mask.directive';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ProfileUserModalFrameComponent } from './shared/profile-user-modal-fram
     LoginComponent,
     ProfileModalFrameComponent,
     ProfileUserModalFrameComponent,
+    PhoneMaskDirective
   ],
   imports: [
     BrowserModule,

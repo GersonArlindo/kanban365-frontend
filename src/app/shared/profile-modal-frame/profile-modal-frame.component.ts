@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ModalShowService } from 'src/app/services/modal-show.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,12 +19,13 @@ export class ProfileModalFrameComponent {
     formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private UserSrv: AuthService
+    private UserSrv: AuthService,
+    private openModalSrv: ModalShowService
   ){
     this.formCreateUser = formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phone_number: ['', Validators.required],
       password: ['', Validators.required],
       confirm_password: ['', Validators.required]
@@ -34,12 +36,13 @@ export class ProfileModalFrameComponent {
     @Input() email:string = "";
     @Input() phone_number:string = "";
     @Input() rol_name:string = "";
+    @Input() tenant_id:string = "";
+
 
     ngOnInit(){
     }
 
     createUserHandler(){
-
       const data: any = {
         first_name: this.formCreateUser.value.first_name,
         last_name: this.formCreateUser.value.last_name,
@@ -52,7 +55,7 @@ export class ProfileModalFrameComponent {
         password: this.formCreateUser.value.password,
         confirm_password: this.formCreateUser.value.confirm_password,
         created_by: this.first_name + ' ' + this.last_name,
-        tenant_id: '123abc'
+        tenant_id: this.tenant_id
       }
       if(data.password != data.confirm_password){
         Swal.fire({
@@ -63,16 +66,32 @@ export class ProfileModalFrameComponent {
         return
       }
 
-      this.UserSrv.addUser(data)
+      this.UserSrv.checkEmail(data.email)
         .subscribe((res: any) => {
-          if(res){
+          if(res.exists == true){
             Swal.fire({
-              title: "Good job!",
-              text: "Your user has been saved!",
-              icon: "success"
+              icon: "error",
+              title: "Oops...",
+              text: "The email already exists in our database!"
             });
+            console.log(res)
+            return
           }else{
-            alert("Ups, An error has occurred!")
+            this.UserSrv.addUser(data)
+            .subscribe((res: any) => {
+              if(res){
+                Swal.fire({
+                  title: "Good job!",
+                  text: "Your user has been saved!",
+                  icon: "success"
+                })
+                setTimeout(() => {
+                  window.location.reload()
+                }, 1000);
+              }else{
+                alert("Ups, An error has occurred!")
+              }
+            })
           }
         })
       console.log(data)

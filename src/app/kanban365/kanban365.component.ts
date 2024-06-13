@@ -79,5 +79,6 @@ export class Kanban365Component {
   email: any = this.getUserInfo('email')
   phone_number: any = this.getUserInfo('phone_number')
   rol_name: any = this.getUserInfo('rol_name')
+  tenant_id: any = this.getUserInfo('tenant_id')
 
 }

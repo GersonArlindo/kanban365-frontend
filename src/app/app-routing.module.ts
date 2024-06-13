@@ -13,10 +13,11 @@ const routes: Routes = [
     component: Kanban365Component
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'top', useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
