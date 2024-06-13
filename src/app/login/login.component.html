@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <title>Kanban 365</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style media="screen">
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&display=swap');
+        
+        :root{
+            --color-bg: #20212C;
+            --color-sec-bg: #2B2C37;
+            --color-text: #FFFFFF;
+            --label-text-color: #FFFFFF;
+            --secondary-button-color: #FFFFFF;
+            --secondary-button-color-hover: #FFFFFF;
+            --checkbox-bg: #20212C;
+            --checkbox-color: #2B2C37;
+            --lines: #3E3F4E;
+            --sidebar-btn-hover: #FFFFFF;
+            --new-column-bg: linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%);
+        }
+        [data-theme='light'] {
+            --color-bg: #F4F7FD;
+            --color-sec-bg: #FFFFFF;
+            --color-text: #000112;
+            --label-text-color: #828FA3;
+            --secondary-button-color: #F4F7FD;
+            --secondary-button-color-hover: #E4EBFA;
+            --checkbox-bg: #F4F7FD;
+            --checkbox-color: #FFFFFF;
+            --lines: #E4EBFA;
+            --sidebar-btn-hover: #F4F7FD;
+            --new-column-bg: linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+        
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            left: 50%;
+            top: 50%;
+        }
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .shape:first-child {
+            background: linear-gradient(
+                #1845ad,
+                #23a2f6
+            );
+            left: -80px;
+            top: -80px;
+        }
+        .shape:last-child {
+            background: linear-gradient(
+                to right,
+                #ff512f,
+                #f09819
+            );
+            right: -30px;
+            bottom: -80px;
+        }
+        form {
+            height: 520px;
+            width: 400px;
+            background-color: var(--color-sec-bg);
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--lines);
+            box-shadow: 0 0 40px rgba(8,7,16,0.6);
+            padding: 50px 35px;
+        }
+        form * {
+            font-family: 'Poppins', sans-serif;
+            color: var(--color-text);
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+        form h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-text);
+        }
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--label-text-color);
+        }
+        ::placeholder {
+            color: #e5e5e5;
+        }
+        button {
+            margin-top: 50px;
+            width: 100%;
+            background-color: var(--color-text);
+            color: var(--color-bg) !important;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            opacity: .5;
+            cursor: default;
+        }
+
+        @media screen and (max-width: 575px) {
+            .heading-xl {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form [formGroup]="formLogin" (ngSubmit)="Login()">
+        <h3>Login Here</h3>
+        <label for="username">Username</label>
+        <input type="text" placeholder="Email or Phone" id="username" formControlName="username" [autocomplete]="false">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" formControlName="password" [autocomplete]="false">
+        <button type="submit"  [disabled]="!formLogin.valid">Log In</button>
+    </form>
+</body>
+</html>
