@@ -45,14 +45,28 @@ export class BoardsService {
       localStorage.setItem("boards", JSON.stringify(this.boards));
       console.log(response.boards.length - 1);
       const lastInsert = response.boards.length - 1;
-      if (value == 'AddBoard') {
-        this.sidebarService.selectedIndex = lastInsert;
-        this.setCurrentBoard(this.boards.boards[lastInsert]);
-        this.indexes.boardIndex = lastInsert;
-      } else {
-        this.sidebarService.selectedIndex = 0;
-        this.setCurrentBoard(this.boards.boards[0]);
-        this.indexes.boardIndex = 0;
+      switch (value) {
+        case 'AddBoard':
+          this.sidebarService.selectedIndex = lastInsert;
+          this.setCurrentBoard(this.boards.boards[lastInsert]);
+          this.indexes.boardIndex = lastInsert;
+          break;
+        
+        case 'onInit':
+          this.sidebarService.selectedIndex = 0;
+          this.setCurrentBoard(this.boards.boards[0]);
+          this.indexes.boardIndex = 0;
+          break;
+
+        case 'allOtherAction':
+          this.sidebarService.selectedIndex = lastInsert;
+          this.setCurrentBoard(this.boards.boards[lastInsert]);
+          this.indexes.boardIndex = lastInsert;
+          break;
+      
+        default:
+          // Puedes manejar otros casos aquí si es necesario
+          break;
       }
       console.log(this.boards);
     } catch (error) {
@@ -81,7 +95,7 @@ export class BoardsService {
         this.http.put(`${environment.API_URL}board/edit/${data.id}`, data)
           .subscribe((response: any) => {
             console.log(response)
-            //this.getBoards()
+            this.getBoards("allOtherAction")
           });
         break;
       case 'Delete Board':
@@ -89,7 +103,7 @@ export class BoardsService {
         this.http.delete(`${environment.API_URL}board/delete/${data.id}`)
           .subscribe((response: any) => {
             console.log(response)
-            //this.getBoards()
+            this.getBoards("allOtherAction")
           });
         break;
       case 'Creando Task':
@@ -97,35 +111,35 @@ export class BoardsService {
         this.http.post(`${environment.API_URL}task/add`, data)
           .subscribe((response: any) => {
             console.log(response)
-            //this.getBoards()
+            this.getBoards("allOtherAction")
           });
         break
       case 'Editando Task':
         this.http.put(`${environment.API_URL}task/edit/${data.id}`, data)
         .subscribe((response: any) => {
           console.log(response)
-          //this.getBoards()
+          this.getBoards("allOtherAction")
         });
         break
       case 'Change Status':
         this.http.put(`${environment.API_URL}task/change-status/${data.taskId}`, data)
         .subscribe((response: any) => {
           console.log(response)
-          //this.getBoards()
+          this.getBoards("allOtherAction")
         });
         break
       case 'is Completed':
         this.http.put(`${environment.API_URL}subtask/toggle-completion/${data.id}`, data)
         .subscribe((response: any) => {
           console.log(response)
-          //this.getBoards()
+          this.getBoards("allOtherAction")
         });
         break
       case 'Delete Task':
         this.http.delete(`${environment.API_URL}task/delete/${data.id}`)
           .subscribe((response: any) => {
             console.log(response)
-            //this.getBoards()
+            this.getBoards("allOtherAction")
           });
         break
       case 'Moviendo Task':
@@ -136,7 +150,7 @@ export class BoardsService {
         this.http.put(`${environment.API_URL}task/change-status/${data.id}`, dataMov)
           .subscribe((response: any) => {
             console.log(response)
-            //this.getBoards()
+            this.getBoards("allOtherAction")
           });
         break
       default:

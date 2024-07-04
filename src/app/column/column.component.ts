@@ -28,7 +28,7 @@ export class ColumnComponent{
     this.modalShowService.openTaskModal()
     this.boardsService.indexes.columnIndex = this.columnIndex;
     this.boardsService.indexes.taskIndex = i;
-    }
+  }
 
   filterCompletedTasks(subtasks: Array<Subtask>):number{
     return subtasks.filter(subtask => subtask.isCompleted === true).length
