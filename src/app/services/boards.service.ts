@@ -59,9 +59,12 @@ export class BoardsService {
           break;
 
         case 'allOtherAction':
-          this.sidebarService.selectedIndex = lastInsert;
-          this.setCurrentBoard(this.boards.boards[lastInsert]);
-          this.indexes.boardIndex = lastInsert;
+          if(this.sidebarService.selectedIndex == lastInsert){
+            this.sidebarService.selectedIndex = lastInsert;
+            this.setCurrentBoard(this.boards.boards[lastInsert]);
+            this.indexes.boardIndex = lastInsert;
+          }
+
           break;
       
         default:

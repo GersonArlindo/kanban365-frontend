@@ -60,6 +60,7 @@ export class ModalShowService {
     this.darkBackground = true;
     this.showDeleteBoardModal = true;
   }
+  
   openCreateBoardModal(){
     this.darkBackground = true;
     this.showCreatedBoardModal = true;

@@ -1,7 +1,8 @@
 <div class="container register">
     <div class="row">
         <div class="register-left">
-            <img src="https://static.vecteezy.com/system/resources/previews/027/312/306/non_2x/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png" alt="" />
+            <img src="https://static.vecteezy.com/system/resources/previews/027/312/306/non_2x/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png"
+                alt="" />
             <h3>Welcome</h3>
             <p>{{first_name}} {{last_name}}<br>
                 {{email}}<br>
@@ -17,16 +18,16 @@
                         <div class="register-form">
                             <div class="column">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="First Name *" value="" formControlName="first_name" />
+                                    <input type="text" class="form-control" placeholder="First Name *" value=""
+                                        formControlName="first_name" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Last Name *" value="" formControlName="last_name" />
+                                    <input type="email" class="form-control" placeholder="Your Email *" value=""
+                                        formControlName="email" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Password *" value="" formControlName="password" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Confirm Password *" value="" formControlName="confirm_password"/>
+                                    <input type="password" class="form-control" placeholder="Password *" value=""
+                                        formControlName="password" />
                                 </div>
                                 <div class="form-group">
                                     <div class="maxl">
@@ -41,14 +42,29 @@
                                         </label>
                                     </div>
                                 </div>
-                                
+                                <div class="form-group">
+                                    <div class="check_container">
+                                        <input id="checkbox" class="hidden" type="checkbox"
+                                            (change)="externalUserHandler($event)">
+                                        <label class="checkbox" for="checkbox"></label> &nbsp;<span
+                                            pTooltip="If you select this option you will be creating a user who will have the possibility to create more users under his charge as an external user."
+                                            tooltipPosition="top" style="color: black;">External User</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="column">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Your Email *" value="" formControlName="email" />
+                                    <input type="text" class="form-control" placeholder="Last Name *" value=""
+                                        formControlName="last_name" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="tel" name="txtEmpPhone" class="form-control" placeholder="Your Phone *" value="" formControlName="phone_number" appPhoneMask/>
+                                    <input type="tel" name="txtEmpPhone" class="form-control" placeholder="Your Phone *"
+                                        value="" formControlName="phone_number" appPhoneMask />
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Confirm Password *"
+                                        value="" formControlName="confirm_password" />
                                 </div>
 
                                 <div class="form-group">
@@ -59,15 +75,17 @@
                                         </label>
                                         &nbsp;
                                         <label class="radio inline">
-                                            <input type="radio" name="status" value="0"  (change)="changeStatus(0)">
+                                            <input type="radio" name="status" value="0" (change)="changeStatus(0)">
                                             <span style="color: black;"> Inactive </span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" placeholder="Enter Your Answer *" value="" />
-                                </div> 
-                                <button type="submit" class="btnRegister" [disabled]="!formCreateUser.valid">Register</button>
+                                    <input type="hidden" class="form-control" placeholder="Enter Your Answer *"
+                                        value="" />
+                                </div>
+                                <button type="submit" class="btnRegister"
+                                    [disabled]="!formCreateUser.valid">Register</button>
                             </div>
                         </div>
                     </form>

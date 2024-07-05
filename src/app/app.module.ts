@@ -31,6 +31,8 @@ import { AuthInterceptor } from '../app/services/auth.interceptor';
 import { ProfileModalFrameComponent } from './shared/profile-modal-frame/profile-modal-frame.component';
 import { ProfileUserModalFrameComponent } from './shared/profile-user-modal-frame/profile-user-modal-frame.component';
 import { PhoneMaskDirective } from './directives/phone-mask.directive';
+import { TooltipModule } from 'primeng/tooltip';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { PhoneMaskDirective } from './directives/phone-mask.directive';
   ],
   imports: [
     BrowserModule,
+    TooltipModule,
+    NgSelectModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,

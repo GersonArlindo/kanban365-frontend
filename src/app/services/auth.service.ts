@@ -48,4 +48,12 @@ export class AuthService {
         catchError((err) => this.HandlerErrorSrv.handlerError(err))
       )
   }
+
+  getUsers(): Observable<any>{
+    return this.http.get<any>(`${environment.API_URL}users`)
+    .pipe(
+      map((response:any) => response.users),
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
+    )
+  } 
 }

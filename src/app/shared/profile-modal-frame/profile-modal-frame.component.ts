@@ -15,6 +15,7 @@ export class ProfileModalFrameComponent {
   formCreateUser!: FormGroup
   selectedRole: number = 2; // Valor inicial
   selectedStatus: number = 1
+  isExternalUser: boolean = false
   constructor(
     formBuilder: FormBuilder,
     private http: HttpClient,
@@ -43,6 +44,14 @@ export class ProfileModalFrameComponent {
     }
 
     createUserHandler(){
+      const generateRandomString = (length: number) => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+      }
       const data: any = {
         first_name: this.formCreateUser.value.first_name,
         last_name: this.formCreateUser.value.last_name,
@@ -50,12 +59,14 @@ export class ProfileModalFrameComponent {
         user_image: 'no-image.png',
         email: this.formCreateUser.value.email,
         phone_number: this.formCreateUser.value.phone_number,
-        rol_id: this.selectedRole,
+        rol_id: this.isExternalUser ? 1 :  this.selectedRole, // 1 = Admin , 2 = User
         status: this.selectedStatus,
         password: this.formCreateUser.value.password,
         confirm_password: this.formCreateUser.value.confirm_password,
         created_by: this.first_name + ' ' + this.last_name,
-        tenant_id: this.tenant_id
+        tenant_id: this.isExternalUser 
+        ? `${this.formCreateUser.value.first_name}${this.formCreateUser.value.last_name}_${generateRandomString(10)}` 
+        : this.tenant_id
       }
       if(data.password != data.confirm_password){
         Swal.fire({
@@ -105,6 +116,11 @@ export class ProfileModalFrameComponent {
     changeRole(role: any){
       this.selectedRole = role
       console.log(this.selectedRole)
+    }
+
+    externalUserHandler(event: any){
+      this.isExternalUser = event.target.checked
+      console.log(this.isExternalUser)
     }
 
     logOut(){

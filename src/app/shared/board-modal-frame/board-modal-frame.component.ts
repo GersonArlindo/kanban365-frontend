@@ -4,6 +4,7 @@ import { ModalShowService } from 'src/app/services/modal-show.service';
 import { FormControl, Validators } from "@angular/forms"
 import { Column } from 'src/app/types/boards.interface';
 import { SidebarToggleService } from 'src/app/services/sidebar-toggle.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-board-modal-frame',
@@ -11,11 +12,13 @@ import { SidebarToggleService } from 'src/app/services/sidebar-toggle.service';
   styleUrls: ['./board-modal-frame.component.scss']
 })
 export class BoardModalFrameComponent implements OnInit {
-
+  opcionSeleccionadaUser: any[] = []
+  users: any[] = []
   constructor(
     public boardsService:BoardsService,
     public modalShowService:ModalShowService,
-    public sidebarService:SidebarToggleService
+    public sidebarService:SidebarToggleService,
+    private UserSrv: AuthService
     ){}
 
   @Input() modalName:string = "";
@@ -113,9 +116,17 @@ export class BoardModalFrameComponent implements OnInit {
     this.boardsService.setBoards(this.boardsService.boards, newBoard, 'Add Board')
     this.modalShowService.closeModal();
   }
+
+  getUsers(){
+    this.UserSrv.getUsers()
+      .subscribe((data: any) =>{
+        this.users = data
+      })
+  }
   
   ngOnInit(){
     this.name.setValue(this.titleValue)
     this.columnsCopy = this.columns.map((column: Column) => column)
+    this.getUsers()
   }
 }
