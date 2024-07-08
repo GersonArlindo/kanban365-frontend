@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { SidebarToggleService } from './sidebar-toggle.service';
+import { HandlerErrorService } from './handler-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,12 @@ export class BoardsService {
     private http: HttpClient,
     private router: Router,
     public sidebarService: SidebarToggleService,
+    private HandlerErrorSrv: HandlerErrorService
   ) { }
 
   boards!: Boards;
   currentBoard!: Board
+  assignedUsers: any[] = []
   currentTask: Task = {
     description: "string",
     status: "string",
@@ -33,11 +36,6 @@ export class BoardsService {
     dropColumnIndex: 0,
     dropTaskIndex: 0
   }
-
-  // getBoards(){
-  //   this.boards =JSON.parse(localStorage['boards'])
-  //   console.log(this.boards)
-  // }
   async getBoards(value: any) {
     try {
       const response: any = await this.http.get(`${environment.API_URL}boards`).toPromise();
@@ -79,11 +77,6 @@ export class BoardsService {
       throw error; // Lanza el error para que se maneje donde se llame a getBoards()
     }
   }
-
-  // private handleError(error: HttpErrorResponse) {
-  //   console.error('An error occurred:', error.message);
-  //   return throwError('Something bad happened; please try again later.');
-  // }
 
   setBoards(boards: Boards, data: any, accion: any) {
     switch (accion) {
@@ -164,10 +157,18 @@ export class BoardsService {
     //localStorage.setItem("boards", JSON.stringify(boards))
   }
 
+  async getAssignedUsers(board_id: any){
+    console.log(board_id)
+    const response: any = await this.http.get(`${environment.API_URL}board/assignedUsers/${board_id.id}`).toPromise();
+    this.assignedUsers = response.assignedUsers
+  } 
+
   setCurrentBoard(board: Board) {
     console.log(board)
     this.currentBoard = board;
+    this.getAssignedUsers(this.currentBoard)
   }
+
 
   setCurrentTask(task: Task) {
     console.log(task)

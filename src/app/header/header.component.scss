@@ -151,3 +151,28 @@
     height: auto; /* Mantiene la proporción de la imagen */
     border-radius: 50%; /* Asegura que la imagen sea redonda */
 }
+
+.viewer {
+    display: flex; /* Cambia el display a flex para alinear los span horizontalmente */
+    align-items: center; /* Alinea los elementos verticalmente en el centro */
+}
+
+.viewer span {
+    height: 30px;
+    width: 30px;
+    background-color: rgb(28, 117, 219);
+    border-radius: 50%;
+    border: 1px solid #fff;
+    display: flex; /* Alinea el contenido dentro del span */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    font-weight: bold;
+    color: #fff;
+    padding: 2px;
+    margin-right: -15px; /* Espacio entre cada span, excepto el último */
+}
+
+// .viewer span:nth-child(3) {
+//     margin-left: auto; /* Coloca el tercer span a la derecha */
+//     margin-right: 0; /* No hay espacio a la derecha del tercer span */
+// }

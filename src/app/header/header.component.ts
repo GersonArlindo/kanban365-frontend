@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { ColorThemeService } from '../services/color-theme.service';
 import { SidebarToggleService } from '../services/sidebar-toggle.service';
 import { BoardsService } from '../services/boards.service';
@@ -9,14 +9,20 @@ import { ModalShowService } from '../services/modal-show.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent  implements AfterViewInit   {
   @Input() rol_name:string = "";
   constructor(
     public colorTheme: ColorThemeService, 
     public sidebarService:SidebarToggleService,
     public boardsService: BoardsService,
-    public modalShowService: ModalShowService 
+    public modalShowService: ModalShowService,
     ) {}
+
+    ngAfterViewInit() {
+      // Aquí puedes colocar cualquier código que dependa de la vista
+    }
+
+
 
     openEditBoardModal(){
       this.modalShowService.openEditBoardModal();

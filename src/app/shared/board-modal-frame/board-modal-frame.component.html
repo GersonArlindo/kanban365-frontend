@@ -15,7 +15,21 @@
     </div>
     <button (click)="addNewColumn($event)" class="btn button-secondary">+ Add new Column</button>
     <label class="heading-s" for="columns">Add Users</label>
-    <ng-select [items]="users" [(ngModel)]="opcionSeleccionadaUser"> </ng-select>
+    <!-- <ng-select [(ngModel)]="opcionSeleccionadaUser" [id]="'1'" name="city">
+        <ng-option value="">Select</ng-option>
+        <ng-option *ngFor="let user of users" [value]="user">
+          {{ user.first_name}}
+        </ng-option>
+      </ng-select> -->
+    <ngx-select 
+        [items]="users" 
+        [(ngModel)]="opcionSeleccionadaUser"
+        [multiple]="true"
+        [autoClearSearch]="true"
+        placeholder="No users selected"
+        optionTextField="username"
+        (selectionChanges)="doSelectOptions($event)">
+    </ngx-select>
     <button *ngIf="modalName === 'Add New Board' " (click)="createBoard($event)" class="btn button-primary-s submit">Create New Board</button>
     <button *ngIf="modalName === 'Edit Board' " (click)="saveBoard($event)" class="btn button-primary-s submit">Save Changes</button>
 </form>

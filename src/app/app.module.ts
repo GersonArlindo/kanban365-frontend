@@ -33,6 +33,8 @@ import { ProfileUserModalFrameComponent } from './shared/profile-user-modal-fram
 import { PhoneMaskDirective } from './directives/phone-mask.directive';
 import { TooltipModule } from 'primeng/tooltip';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxSelectModule } from 'ngx-select-ex';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BrowserModule,
     TooltipModule,
     NgSelectModule,
+    NgxSelectModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,

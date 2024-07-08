@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { BoardsService } from 'src/app/services/boards.service';
 import { ModalShowService } from 'src/app/services/modal-show.service';
 import { FormControl, Validators } from "@angular/forms"
@@ -12,13 +12,14 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./board-modal-frame.component.scss']
 })
 export class BoardModalFrameComponent implements OnInit {
-  opcionSeleccionadaUser: any[] = []
+  opcionSeleccionadaUser: any[] = [1, 2]
   users: any[] = []
   constructor(
     public boardsService:BoardsService,
     public modalShowService:ModalShowService,
     public sidebarService:SidebarToggleService,
-    private UserSrv: AuthService
+    private UserSrv: AuthService,
+    private cdr: ChangeDetectorRef
     ){}
 
   @Input() modalName:string = "";
@@ -92,6 +93,7 @@ export class BoardModalFrameComponent implements OnInit {
     }
     // Crear el nuevo tablero con columnas vacías
     const newBoard = {
+        assignedTo: this.opcionSeleccionadaUser,
         columns: [],
         name: this.name.value || ""
     };
@@ -121,12 +123,26 @@ export class BoardModalFrameComponent implements OnInit {
     this.UserSrv.getUsers()
       .subscribe((data: any) =>{
         this.users = data
+        console.log(this.users)
       })
   }
-  
+
+
   ngOnInit(){
     this.name.setValue(this.titleValue)
     this.columnsCopy = this.columns.map((column: Column) => column)
     this.getUsers()
+    this.searchUsersOfThisBoard()
   }
+
+  searchUsersOfThisBoard(){
+
+  }
+
+  public doSelectOptions = (options: any) => {
+    const selectedData = options.map((option: any) => option.data.id);
+    console.log(selectedData);
+    this.opcionSeleccionadaUser = selectedData; // Guarda los datos en un arreglo
+  }
+
 }
