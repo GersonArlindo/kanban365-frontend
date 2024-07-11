@@ -30,3 +30,9 @@
         </option>
     </select>
 </div>
+
+<div class="status-container">
+    <label class="heading-s">Duration {{boardsService.currentTask.durationText}}</label>
+    <label class="heading-s">Start Date  {{formatearFecha(boardsService.currentTask.startDate)}}</label>
+    <label class="heading-s">Completion Date {{formatearFecha(boardsService.currentTask.dueDate)}}</label>
+</div>

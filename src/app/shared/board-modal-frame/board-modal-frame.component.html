@@ -15,12 +15,6 @@
     </div>
     <button (click)="addNewColumn($event)" class="btn button-secondary">+ Add new Column</button>
     <label class="heading-s" for="columns">Add Users</label>
-    <!-- <ng-select [(ngModel)]="opcionSeleccionadaUser" [id]="'1'" name="city">
-        <ng-option value="">Select</ng-option>
-        <ng-option *ngFor="let user of users" [value]="user">
-          {{ user.first_name}}
-        </ng-option>
-      </ng-select> -->
     <ngx-select 
         [items]="users" 
         [(ngModel)]="opcionSeleccionadaUser"

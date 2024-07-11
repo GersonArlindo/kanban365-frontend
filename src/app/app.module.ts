@@ -34,6 +34,7 @@ import { PhoneMaskDirective } from './directives/phone-mask.directive';
 import { TooltipModule } from 'primeng/tooltip';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSelectModule } from 'ngx-select-ex';
+import { SettingsModalFrameComponent } from './shared/settings-modal-frame/settings-modal-frame.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { NgxSelectModule } from 'ngx-select-ex';
     LoginComponent,
     ProfileModalFrameComponent,
     ProfileUserModalFrameComponent,
-    PhoneMaskDirective
+    PhoneMaskDirective,
+    SettingsModalFrameComponent
   ],
   imports: [
     BrowserModule,

@@ -15,7 +15,7 @@
     [color]="colors[i]"
     [columnIndex]="i"
     ></app-column>
-    <div *ngIf="this.boardsService.currentBoard.columns.length > 0" (click)="onNewColumnClick()" class="new-column">
+    <div *ngIf="this.boardsService.currentBoard.columns.length > 0 && this.boardsService.isMyBoard" (click)="onNewColumnClick()" class="new-column">
         <h2 class="heading-xl">+ New Column</h2>
     </div>
 </ng-container>

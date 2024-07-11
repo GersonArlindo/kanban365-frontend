@@ -4,31 +4,28 @@ import { SidebarToggleService } from '../services/sidebar-toggle.service';
 import { BoardsService } from '../services/boards.service';
 import { ModalShowService } from '../services/modal-show.service';
 import { ColorThemeService } from '../services/color-theme.service';
+import { GhlApiKeyService } from '../services/ghl-api-key.service';
 
 @Component({
   selector: 'app-kanban365',
   templateUrl: './kanban365.component.html',
-  styleUrls: ['./kanban365.component.scss']
+  styleUrls: ['./kanban365.component.scss'],
 })
 export class Kanban365Component {
-  token: any
-  constructor (
+  token: any;
+  constructor(
     public sidebarService: SidebarToggleService,
     public boardsService: BoardsService,
     public modalShowService: ModalShowService,
-    public colorThemeService:ColorThemeService,
-    private router: Router
-    ) {
-      // if (localStorage.getItem("boards") === null){
-      //   boardsService.setBoards(data)
-      // }
-    boardsService.getBoards("onInit");
-    // setTimeout(() => {
-      //boardsService.setCurrentBoard(boardsService.boards.boards[0])
-      if (localStorage.getItem("lightMode") === null){
-        colorThemeService.setTheme("false");
-      }
-    // }, 2000);
+    public colorThemeService: ColorThemeService,
+    private router: Router,
+    public ghlApiKeyService: GhlApiKeyService
+  ) {
+    boardsService.getBoards('onInit');
+    ghlApiKeyService.getGHLApiKey();
+    if (localStorage.getItem('lightMode') === null) {
+      colorThemeService.setTheme('false');
+    }
     colorThemeService.getTheme();
   }
 
@@ -43,9 +40,9 @@ export class Kanban365Component {
       }
     }
     if (window.innerWidth <= 575) {
-       this.sidebarService.sidebarOpened = false;
+      this.sidebarService.sidebarOpened = false;
     }
-    console.log(this.user_id)
+    console.log(this.user_id);
   }
 
   verifyToken(token: string): boolean {
@@ -61,7 +58,7 @@ export class Kanban365Component {
     this.token = this.getTokens();
     let payload;
     if (this.token) {
-      payload = this.token.split(".")[1];
+      payload = this.token.split('.')[1];
       payload = window.atob(payload);
       return JSON.parse(payload)[`${inf}`];
     } else {
@@ -70,15 +67,14 @@ export class Kanban365Component {
   }
 
   getTokens() {
-    return localStorage.getItem("token-kanban365");
+    return localStorage.getItem('token-kanban365');
   }
 
-  user_id: any = this.getUserInfo('id')
-  first_name: any = this.getUserInfo('first_name')
-  last_name: any = this.getUserInfo('last_name')
-  email: any = this.getUserInfo('email')
-  phone_number: any = this.getUserInfo('phone_number')
-  rol_name: any = this.getUserInfo('rol_name')
-  tenant_id: any = this.getUserInfo('tenant_id')
-
+  user_id: any = this.getUserInfo('id');
+  first_name: any = this.getUserInfo('first_name');
+  last_name: any = this.getUserInfo('last_name');
+  email: any = this.getUserInfo('email');
+  phone_number: any = this.getUserInfo('phone_number');
+  rol_name: any = this.getUserInfo('rol_name');
+  tenant_id: any = this.getUserInfo('tenant_id');
 }

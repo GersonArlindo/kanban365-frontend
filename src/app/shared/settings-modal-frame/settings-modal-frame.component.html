@@ -1,0 +1,120 @@
+<h1>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
+        <circle cx="12" cy="12" r="3" />
+        <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </svg>
+    &nbsp;
+    <label>Global Settings</label>
+</h1>
+<div class="tabs">
+    <input type="radio" id="tab1" name="tab-control" checked>
+    <input type="radio" id="tab2" name="tab-control">
+    <input type="radio" id="tab3" name="tab-control">
+    <input type="radio" id="tab4" name="tab-control">
+    <ul>
+        <li title="Features"><label for="tab1" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-key">
+                    <path
+                        d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                </svg>
+                <br><span>Api Key</span></label></li>
+        <li title="Delivery Contents"><label for="tab2" role="button"><svg viewBox="0 0 24 24">
+                    <path
+                        d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                </svg><br><span>Otra Tab</span></label></li>
+        <li title="Shipping"><label for="tab3" role="button"><svg viewBox="0 0 24 24">
+                    <path
+                        d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                </svg><br><span>Otra Tab</span></label></li>
+        <li title="Returns"><label for="tab4" role="button"><svg viewBox="0 0 24 24">
+                    <path
+                        d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                </svg><br><span>Otra Tab</span></label></li>
+    </ul>
+
+    <div class="slider">
+        <div class="indicator"></div>
+    </div>
+    <div class="content">
+        <section>
+            <div *ngFor="let api of ghlApiKeys">
+                <b>Name:</b> {{api.name}} &nbsp; <svg style="cursor: pointer;" (click)="editGhlApiKey(api)"
+                    xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-edit">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg> &nbsp; &nbsp; 
+                <span [ngClass]="{'pill': true, 'active': api.status === 1, 'inactive': api.status === 0}">
+                    {{ api.status === 1 ? 'ACTIVE' : 'INACTIVE' }}
+                  </span><br>
+                <b>API KEY:</b> {{truncateString(api.api_key, 15)}} &nbsp; <svg style="cursor: pointer;"
+                    (click)="copyToClipboard(api.api_key)" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="feather feather-clipboard">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                </svg><br>
+                <b>Location ID:</b> {{api.location_id}}<br>
+            </div>
+            <div *ngIf="ghlApiKeys.length <= 0">
+                <span style="color: black;">Api key not found</span>
+            </div>
+            <hr>
+            <h4 class="heading-l" style="margin-top: 10px; text-align: center; color: black;">Add New Api Key</h4>
+            <form>
+                <input [formControl]="id" class="text-input title-input" name="id" id="id" type="hidden"
+                [value]="id">
+                <label class="heading-s" for="title" style="color: black;">Name</label>
+                <span>
+                    <input [formControl]="name" class="text-input title-input" name="name" id="name" type="text"
+                        [value]="name" placeholder="e.g. Kanban365 Api">
+                    <div class="error-message"
+                        *ngIf="name.invalid && (name.dirty || name.touched) && name.hasError('required')">Can't be empty
+                    </div>
+                    <div class="error-message"
+                        *ngIf="name.invalid && (name.dirty || name.touched) && name.hasError('maxlength')">Maximum
+                        length reached</div>
+                </span>
+                <label class="heading-s" for="title" style="color: black;">API Key</label>
+                <span>
+                    <input [formControl]="apiKey" class="text-input title-input" name="apiKey" id="apiKey" type="text"
+                        [value]="apiKey" placeholder="eyJhb...">
+                    <div class="error-message"
+                        *ngIf="apiKey.invalid && (apiKey.dirty || apiKey.touched) && apiKey.hasError('required')">Can't
+                        be empty</div>
+                </span>
+                <label class="heading-s" for="title" style="color: black;">Location ID</label>
+                <span>
+                    <input [formControl]="locationId" class="text-input title-input" name="locationId" id="locationId"
+                        type="text" [value]="locationId" placeholder="12345789">
+                    <div class="error-message"
+                        *ngIf="locationId.invalid && (locationId.dirty || locationId.touched) && locationId.hasError('required')">
+                        Can't be empty</div>
+                </span>
+                <button *ngIf="!this.ButtonTitle" class="btn button-primary-s submit"
+                    (click)="createApiKey($event)">Create New Api Key</button>
+                <button *ngIf="this.ButtonTitle" class="btn button-primary-s submit" (click)="saveChangesEditApiKey()">Save Changes</button>
+            </form>
+        </section>
+        <section>
+            <h2>Delivery Contents</h2>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quas adipisci a accusantium eius ut
+            voluptatibus ad impedit nulla, ipsa qui. Quasi temporibus eos commodi aliquid impedit amet, similique nulla.
+        </section>
+        <section>
+            <h2>Shipping</h2>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam nemo ducimus eius, magnam error quisquam sunt
+            voluptate labore, excepturi numquam! Alias libero optio sed harum debitis! Veniam, quia in eum.
+        </section>
+        <section>
+            <h2>Returns</h2>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae
+            architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt
+            necessitatibus eaque quidem incidunt.
+        </section>
+    </div>
+</div>

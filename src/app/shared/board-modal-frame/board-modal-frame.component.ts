@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./board-modal-frame.component.scss']
 })
 export class BoardModalFrameComponent implements OnInit {
-  opcionSeleccionadaUser: any[] = [1, 2]
+  opcionSeleccionadaUser: any[] = []
   users: any[] = []
   constructor(
     public boardsService:BoardsService,
@@ -132,12 +132,8 @@ export class BoardModalFrameComponent implements OnInit {
     this.name.setValue(this.titleValue)
     this.columnsCopy = this.columns.map((column: Column) => column)
     this.getUsers()
-    this.searchUsersOfThisBoard()
   }
 
-  searchUsersOfThisBoard(){
-
-  }
 
   public doSelectOptions = (options: any) => {
     const selectedData = options.map((option: any) => option.data.id);

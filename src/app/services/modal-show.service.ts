@@ -18,6 +18,7 @@ export class ModalShowService {
   showDeleteBoardModal = false;
   showCreatedBoardModal = false;
   showViewProfileModal = false;
+  showSettingsModal = false
   showViewProfileUserModal = false;
 
 
@@ -49,6 +50,11 @@ export class ModalShowService {
   openViewProfileModal(){
     this.darkBackground = true;
     this.showViewProfileModal = true;
+  }
+
+  openSettingsModal(){
+    this.darkBackground = true;
+    this.showSettingsModal = true;
   }
 
   openViewProfileUserModal(){
@@ -84,6 +90,7 @@ export class ModalShowService {
     this.showCreatedBoardModal = false;
     this.showEditBoardModal = false;
     this.showViewProfileModal = false;
+    this.showSettingsModal = false;
     this.showViewProfileUserModal = false;
   }
 }

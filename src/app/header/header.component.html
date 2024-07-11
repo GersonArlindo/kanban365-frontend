@@ -12,23 +12,25 @@
     <div class="user-avatar-circle" (click)="openViewProfileModal()">
         <img src="https://static.vecteezy.com/system/resources/previews/027/312/306/non_2x/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png" alt="User Avatar">
     </div>
-    <div class="viewer" *ngIf="this.boardsService.currentBoard">
+    
+    <div *ngIf="rol_name == 'Admin'" class="settings-circle" (click)="openSettingsModal()">
+        <img src="https://www.freeiconspng.com/thumbs/settings-icon/settings-icon-23.png" alt="Settings">
+    </div>
+    <div class="viewer" *ngIf="this.boardsService.currentBoard && this.boardsService.assignedUsers.length > 1">
         <span *ngFor="let user of this.boardsService.assignedUsers"  
-        pTooltip="{{user?.tbl_user?.username}}" 
+        pTooltip="{{user?.tbl_user?.username}} - {{ user.owner === 1 ? 'owner' : 'user' }}"
         tooltipPosition="top"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <path stroke-width="2" stroke="#ffffff" d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8Z"></path> <path stroke-linecap="round" stroke-width="2" stroke="#ffffff" d="M3 21C3.95728 17.9237 6.41998 17 12 17C17.58 17 20.0427 17.9237 21 21"></path> </g></svg></span>
-        <!-- <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <path stroke-width="2" stroke="#ffffff" d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8Z"></path> <path stroke-linecap="round" stroke-width="2" stroke="#ffffff" d="M3 21C3.95728 17.9237 6.41998 17 12 17C17.58 17 20.0427 17.9237 21 21"></path> </g></svg></span>
-        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <path stroke-width="2" stroke="#ffffff" d="M17 8C17 10.7614 14.7614 13 12 13C9.23858 13 7 10.7614 7 8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8Z"></path> <path stroke-linecap="round" stroke-width="2" stroke="#ffffff" d="M3 21C3.95728 17.9237 6.41998 17 12 17C17.58 17 20.0427 17.9237 21 21"></path> </g></svg></span> -->
         <!-- <span>+20</span> -->
     </div>
 </div>
 <div *ngIf="boardsService.boards.boards.length > 0" class="header-right">
-    <button [disabled]="boardsService?.currentBoard?.columns?.length === 0" (click)="handleAddNewTask()" class="btn button-primary-l">+ <span>Add New Task</span></button>
-    <button (click)="modalShowService.onEditDeleteContainerClick()" class="btn-vertical-dots"><img src="assets/icon-vertical-ellipsis.svg" alt="3 dots"></button>
+    <button [disabled]="boardsService?.currentBoard?.columns?.length === 0" (click)="handleAddNewTask()" class="btn button-primary-l">+ <span>Add New Task</span></button>&nbsp; &nbsp;
+
+    <button *ngIf="boardsService.isMyBoard"  (click)="modalShowService.onEditDeleteContainerClick()" class="btn-vertical-dots"><img src="assets/icon-vertical-ellipsis.svg" alt="3 dots"></button>
     <div *ngIf="modalShowService.showEditDeleteContainer" class="edit-delete-container">
         <button (click)="openEditBoardModal()" class="edit-board">Edit Board</button>
         <button (click)="openDeleteBoardModal()" class="delete-board">Delete Board</button>
     </div>
-
 </div>
 
 

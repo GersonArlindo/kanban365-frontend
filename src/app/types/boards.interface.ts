@@ -14,6 +14,10 @@ export interface Column{
 }
 
 export interface Task{
+    id: string
+    startDate: string
+    dueDate: string
+    durationText: string
     description: string
     status: string
     subtasks: Array<Subtask>

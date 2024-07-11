@@ -152,6 +152,23 @@
     border-radius: 50%; /* Asegura que la imagen sea redonda */
 }
 
+.settings-circle {
+    width: 40px; /* Ancho del círculo */
+    height: 40px; /* Altura del círculo */
+    border-radius: 50%; /* Borde redondeado para formar un círculo */
+    overflow: hidden; /* Oculta cualquier contenido fuera del círculo */
+    margin-left: 10px; /* Espacio entre el último botón y el círculo */
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.settings-circle img {
+    display: block;
+    width: 100%; /* Ajusta la imagen al tamaño del círculo */
+    height: auto; /* Mantiene la proporción de la imagen */
+    border-radius: 50%; /* Asegura que la imagen sea redonda */
+}
+
 .viewer {
     display: flex; /* Cambia el display a flex para alinear los span horizontalmente */
     align-items: center; /* Alinea los elementos verticalmente en el centro */
@@ -176,3 +193,5 @@
 //     margin-left: auto; /* Coloca el tercer span a la derecha */
 //     margin-right: 0; /* No hay espacio a la derecha del tercer span */
 // }
+
+

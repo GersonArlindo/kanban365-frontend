@@ -15,12 +15,13 @@ export class ColumnComponent{
     public modalShowService: ModalShowService,
     public boardsService: BoardsService,
     public dragDropService: DragDropService
-    ) {}
+    ) {
+    }
 
   @Input() color:string = "#49C4E5";
   @Input() columnName:string = "TODO";
   @Input() taskNumber:number = 0;
-  @Input() tasks:Array<Task>= [];
+  @Input() tasks:Array<any>= []; 
   @Input() columnIndex:number = 0;
 
   onTaskClick(i:number){

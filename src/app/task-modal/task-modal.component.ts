@@ -34,7 +34,7 @@ export class TaskModalComponent {
     this.boardsService.currentTask.subtasks[i].isCompleted = updatedSubtask.isCompleted;
     // Actualizar el estado del board
     this.boardsService.setBoards(this.boardsService.boards, updatedSubtask, 'is Completed');
-}
+  }
 
   changeStatus(value: string) {
     // Encuentra la columna actual de la tarea
@@ -75,6 +75,26 @@ export class TaskModalComponent {
 
   filterCompletedTasks(subtasks: Array<Subtask>):number{
     return subtasks.filter(subtask => subtask.isCompleted === true).length
+  }
+
+  formatearFecha(fecha: any) {
+    if(!fecha){
+      return '-'
+    }
+    // Crear un objeto de fecha a partir de la cadena proporcionada
+    let fechaObjeto = new Date(fecha);
+
+    // Obtener los componentes de la fecha
+    let año = fechaObjeto.getFullYear();
+    let mes = ('0' + (fechaObjeto.getMonth() + 1)).slice(-2); // +1 porque enero es 0
+    let dia = ('0' + fechaObjeto.getDate()).slice(-2);
+    let horas = ('0' + fechaObjeto.getHours()).slice(-2);
+    let minutos = ('0' + fechaObjeto.getMinutes()).slice(-2);
+
+    // Crear el formato legible
+    let fechaLegible = `${año}-${mes}-${dia} ${horas}:${minutos}`;
+
+    return fechaLegible;
   }
 }
 

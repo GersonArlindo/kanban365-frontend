@@ -36,6 +36,12 @@ modalName="Edit Board"
 [phone_number]="phone_number"
 [rol_name]="rol_name"
 ></app-profile-user-modal-frame>
+<app-settings-modal-frame *ngIf="modalShowService.showSettingsModal"
+[ghlApiKeys]="ghlApiKeyService.ghlApiKeys"
+[currentGhlApiKey]="ghlApiKeyService.currentGhlApiKey"
+[first_name]="first_name"
+[last_name]="last_name">
+</app-settings-modal-frame>
 <!--
 <h1 class="heading-xl">This is an example!</h1>
 <h1 class="heading-l">This is an example!</h1>

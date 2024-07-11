@@ -3,6 +3,7 @@ import { BoardsService } from 'src/app/services/boards.service';
 import { ModalShowService } from 'src/app/services/modal-show.service';
 import { FormControl, Validators } from "@angular/forms"
 import { Column, Subtask } from 'src/app/types/boards.interface';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-task-modal-frame',
@@ -11,7 +12,11 @@ import { Column, Subtask } from 'src/app/types/boards.interface';
 })
 export class TaskModalFrameComponent implements OnInit {
 
-  constructor(public boardsService:BoardsService, public modalShowService:ModalShowService){}
+  constructor(
+    public boardsService:BoardsService, 
+    public modalShowService:ModalShowService,
+    private UserSrv: AuthService
+  ){}
 
   @Input() modalName:string = "";
   @Input() titleValue:string = "";
@@ -24,7 +29,12 @@ export class TaskModalFrameComponent implements OnInit {
   @Input() buttonName:string = "";
 
   @ViewChildren('templateSubtask') subtasksInputChildren!: QueryList<ElementRef<HTMLInputElement>>;
-
+  users: any[] = []
+  minDateTime!: string;
+  startDate: any
+  dueDate: any
+  durationText: string | undefined;
+  opcionSeleccionadaUser: any[] = []
   name = new FormControl('', Validators.required);
   indexes = this.boardsService.indexes;
   subtaskPlaceholders = ["e.g. Make coffee", "e.g Drink coffee & smile", "e.g. Enjoy your caffeine boost", "e.g. Wash the cup"]
@@ -108,6 +118,10 @@ export class TaskModalFrameComponent implements OnInit {
     if (column) {
         // Create new task object
         const newTask = {
+            startDate: this.startDate,
+            dueDate: this.dueDate,
+            durationText: this.durationText,
+            assignedTo: this.opcionSeleccionadaUser,
             title: title,
             description: description,
             status: status,
@@ -121,8 +135,85 @@ export class TaskModalFrameComponent implements OnInit {
 
     this.modalShowService.closeModal();
 }
+
+  setMinDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    this.minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
   
   ngOnInit(){
     this.name.setValue(this.titleValue)
+    this.getUsers()
+    this.setMinDateTime();
+  }
+
+
+  getUsers(){
+    this.UserSrv.getUsers()
+      .subscribe((data: any) =>{
+        this.users = data
+        console.log(this.users)
+        console.log(this.boardsService.assignedUsers)
+        this.users = this.users.filter(user => 
+          this.boardsService.assignedUsers.some(assignedUser => assignedUser.user_id == user.id)
+        );
+      })
+  }
+
+  getStartDateValue(event: any){
+    this.startDate = event.target.value
+    console.log(event.target.value)
+    this.calcularDuration();
+  }
+
+  getDueDateValue(event: any){
+    this.dueDate = event.target.value
+    this.calcularDuration();
+  }
+
+
+  calcularDuration() {
+    if (this.startDate && this.dueDate) {
+      const start = new Date(this.startDate);
+      const due = new Date(this.dueDate);
+      const durationMinutes = (due.getTime() - start.getTime()) / 1000 / 60; // Duración en minutos
+      this.durationText = this.formatDuration(durationMinutes);
+      console.log('Duración:', this.durationText);
+    }
+  }
+
+  formatDuration(durationMinutes: number): string {
+    const minutesInDay = 1440;
+    const minutesInHour = 60;
+
+    const days = Math.floor(durationMinutes / minutesInDay);
+    const hours = Math.floor((durationMinutes % minutesInDay) / minutesInHour);
+    const minutes = Math.floor(durationMinutes % minutesInHour);
+
+    let durationString = '';
+
+    if (days > 0) {
+      durationString += `${days} día${days > 1 ? 's' : ''} `;
+    }
+    if (hours > 0) {
+      durationString += `${hours} hora${hours > 1 ? 's' : ''} `;
+    }
+    if (minutes > 0) {
+      durationString += `${minutes} minuto${minutes > 1 ? 's' : ''}`;
+    }
+
+    return durationString.trim();
+  }
+  
+  public doSelectOptions = (options: any) => {
+    const selectedData = options.map((option: any) => option.data.id);
+    console.log(selectedData);
+    this.opcionSeleccionadaUser = selectedData; // Guarda los datos en un arreglo
   }
 }

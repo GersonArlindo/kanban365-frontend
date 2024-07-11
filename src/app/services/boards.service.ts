@@ -17,12 +17,20 @@ export class BoardsService {
     private router: Router,
     public sidebarService: SidebarToggleService,
     private HandlerErrorSrv: HandlerErrorService
-  ) { }
-
+  ) {
+    this.initializeUserId();
+   }
+  token: any
   boards!: Boards;
   currentBoard!: Board
+  isMyBoard: boolean = false
+  user_id: string | null = null;
   assignedUsers: any[] = []
   currentTask: Task = {
+    id: "string",
+    startDate: "string",
+    dueDate: "string",
+    durationText: "string",
     description: "string",
     status: "string",
     subtasks: [],
@@ -36,6 +44,9 @@ export class BoardsService {
     dropColumnIndex: 0,
     dropTaskIndex: 0
   }
+
+
+
   async getBoards(value: any) {
     try {
       const response: any = await this.http.get(`${environment.API_URL}boards`).toPromise();
@@ -56,11 +67,17 @@ export class BoardsService {
           this.indexes.boardIndex = 0;
           break;
 
-        case 'allOtherAction':
+          //En este caso se verifica si el index del board en cuestion es igual al ultimo agregado, 
+          //de no ser asi se toma el index guardado previamente en this.indexes.boardIndex para poder setear ese valor luego de traer nuevamente los boards
+        case 'allOtherAction': 
           if(this.sidebarService.selectedIndex == lastInsert){
             this.sidebarService.selectedIndex = lastInsert;
             this.setCurrentBoard(this.boards.boards[lastInsert]);
             this.indexes.boardIndex = lastInsert;
+          }else{
+            this.sidebarService.selectedIndex = this.indexes.boardIndex;
+            this.setCurrentBoard(this.boards.boards[this.indexes.boardIndex]);
+            this.indexes.boardIndex = this.indexes.boardIndex;
           }
 
           break;
@@ -158,9 +175,11 @@ export class BoardsService {
   }
 
   async getAssignedUsers(board_id: any){
-    console.log(board_id)
     const response: any = await this.http.get(`${environment.API_URL}board/assignedUsers/${board_id.id}`).toPromise();
     this.assignedUsers = response.assignedUsers
+    console.log(this.assignedUsers)
+    this.isMyBoard = this.assignedUsers.some(user => user.user_id == this.user_id && user.owner == 1);
+    console.log(this.isMyBoard)
   } 
 
   setCurrentBoard(board: Board) {
@@ -173,5 +192,36 @@ export class BoardsService {
   setCurrentTask(task: Task) {
     console.log(task)
     this.currentTask = task;
+  }
+
+  //*Recuperacion del id de usuario mediante el token
+  async getUserInfo(inf: string): Promise<any> {
+    this.token = await this.getTokens();
+    let payload;
+    if (this.token) {
+      payload = this.token.split(".")[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload)[`${inf}`];
+    } else {
+      return null;
+    }
+  }
+
+  getTokens(): Promise<string | null> {
+    return new Promise((resolve) => {
+      const checkToken = () => {
+        const token = localStorage.getItem("token-kanban365");
+        if (token) {
+          resolve(token);
+        } else {
+          setTimeout(checkToken, 100); // Volver a comprobar después de 100ms
+        }
+      };
+      checkToken();
+    });
+  }
+
+  async initializeUserId() {
+    this.user_id = await this.getUserInfo('id');
   }
 }

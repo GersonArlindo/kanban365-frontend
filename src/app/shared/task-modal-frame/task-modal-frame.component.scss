@@ -86,3 +86,48 @@
     }
 }
 
+/* Aumenta la especificidad del selector */
+ngx-select.ngx-select__selected-plural {
+    outline: 0;
+    margin: 0 3px 3px 0;
+    padding: 3px;
+  }
+
+  /* Utiliza ::ng-deep para aplicar estilos */
+::ng-deep ngx-select .ngx-select__selected-plural {
+    outline: 0;
+    margin: 0 3px 3px 0;
+    padding: 3px;
+    background: #b2b1ee;
+  }
+
+/* Estilos para la contenedor */
+.datetime-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan si es necesario */
+  }
+  
+  /* Estilos para las etiquetas */
+  .datetime-container label {
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  /* Estilos para los inputs */
+  .datetime-container input[type="datetime-local"] {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 120px; /* Ajustar el ancho según sea necesario */
+  }
+  
+  .datetime-container input[type="datetime-local"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  

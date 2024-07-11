@@ -36,6 +36,10 @@ export class HeaderComponent  implements AfterViewInit   {
         this.modalShowService.openViewProfileUserModal();
       }
     }
+
+    openSettingsModal(){
+      this.modalShowService.openSettingsModal()
+    }
     
     openDeleteBoardModal(){
       this.modalShowService.openDeleteBoardModal();

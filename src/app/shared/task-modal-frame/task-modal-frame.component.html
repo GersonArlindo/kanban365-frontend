@@ -25,6 +25,33 @@
         >
             {{value.name}}</option>
     </select>
+    <label class="heading-s status-label">Duration</label>
+    <div class="datetime-container">
+        <label for="party-start">Desde:</label>
+        <input
+          id="party-start"
+          type="datetime-local"
+          name="partydate-start"
+          [min]="minDateTime" 
+          (change)="getStartDateValue($event)"/>
+        <label for="party-end">Hasta:</label>
+        <input
+          id="party-end"
+          type="datetime-local"
+          name="partydate-end"
+          [min]="minDateTime" 
+          (change)="getDueDateValue($event)"/>
+      </div>
+    <label class="heading-s status-label">Assign to </label>
+    <ngx-select 
+        [items]="users" 
+        [(ngModel)]="opcionSeleccionadaUser"
+        [multiple]="true"
+        [autoClearSearch]="true"
+        placeholder="No users selected"
+        optionTextField="username"
+        (selectionChanges)="doSelectOptions($event)">
+    </ngx-select>
     <button *ngIf="modalName === 'Edit Task'" (click)="saveTask($event, title.value, description.value, status.value)" class="btn button-primary-s submit">Save Changes</button>
     <button *ngIf="modalName === 'Add New Task'" (click)="createTask($event, title.value, description.value, status.value)" class="btn button-primary-s submit">Create Task</button>
 </form>
