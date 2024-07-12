@@ -32,7 +32,9 @@
 </div>
 
 <div class="status-container">
-    <label class="heading-s">Duration {{boardsService.currentTask.durationText}}</label>
-    <label class="heading-s">Start Date  {{formatearFecha(boardsService.currentTask.startDate)}}</label>
-    <label class="heading-s">Completion Date {{formatearFecha(boardsService.currentTask.dueDate)}}</label>
+    <label class="heading-s"><b>Duration:</b> {{boardsService.currentTask.durationText}} <br>
+    <b>Start Date:</b>  {{formatearFecha(boardsService.currentTask.startDate)}}<br>
+    <b>Completion Date:</b> {{formatearFecha(boardsService.currentTask.dueDate)}}<br>
+    <b>Assigned User: <span *ngFor="let user of boardsService.currentTask.assignedUsers"> {{user.username }} - {{user.email}}</span></b>
+</label>
 </div>

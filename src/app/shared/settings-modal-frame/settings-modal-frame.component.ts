@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Table } from 'primeng/table';
+import { AuthService } from 'src/app/services/auth.service';
 import { BoardsService } from 'src/app/services/boards.service';
 import { GhlApiKeyService } from 'src/app/services/ghl-api-key.service';
 import { ModalShowService } from 'src/app/services/modal-show.service';
@@ -16,21 +18,35 @@ export class SettingsModalFrameComponent implements OnInit {
   @Input() currentGhlApiKey!: any
   @Input() first_name:string = "";
   @Input() last_name:string = "";
+  // @ViewChild('dt') table!: Table;
   id = new FormControl('')
   name = new FormControl('', [Validators.required, Validators.maxLength(50)]);
   apiKey = new FormControl('', [Validators.required] )
   locationId = new FormControl('', [Validators.required])
   ButtonTitle: boolean =  false
+  users: any[] = []
+  searchText: string = '';
+  page: number = 1;
 
   constructor(
     public boardsService:BoardsService,
     public modalShowService:ModalShowService,
     public sidebarService:SidebarToggleService,
-    public ghlApiKeyService: GhlApiKeyService
+    public ghlApiKeyService: GhlApiKeyService,
+    public UserService: AuthService 
     ){}
   
   ngOnInit(){
-    
+    this.getUsers()
+  }
+
+
+  getUsers(){
+    this.UserService.getUsers()
+      .subscribe((res:any)=>{
+        this.users = res
+        console.log(this.users)
+      })
   }
 
   createApiKey(event:Event){
@@ -129,6 +145,7 @@ export class SettingsModalFrameComponent implements OnInit {
     this.locationId.setValue("")
     this.ButtonTitle = false
   }
+
   truncateString(str: any, num: any) {
     if (str.length <= num) {
       return str;
@@ -158,5 +175,20 @@ export class SettingsModalFrameComponent implements OnInit {
       icon: "success",
       title: "Text copied to clipboard"
     });
+  }
+
+  get filteredUsers() {
+    if (!this.searchText) {
+      return this.users;
+    }
+    return this.users.filter(user => 
+      user.first_name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      user.last_name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      user.username.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      user.email.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      user.phone_number.includes(this.searchText) ||
+      (user.rol_id == 1 ? "Admin" : "User").toLowerCase().includes(this.searchText.toLowerCase()) ||
+      (user.status == 1 ? "Active" : "Inactive").toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 }

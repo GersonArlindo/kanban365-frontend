@@ -11,8 +11,8 @@ export class Environment  {
 
   constructor(){
     this.production=true,
-    //this.API_URL="http://localhost:8001/"
-    this.API_URL="https://kanban365-backend.ez-marketing-us.com/"
+    this.API_URL="http://localhost:8001/"
+    //this.API_URL="https://kanban365-backend.ez-marketing-us.com/"
   }
 };
 

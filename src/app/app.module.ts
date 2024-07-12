@@ -35,7 +35,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { SettingsModalFrameComponent } from './shared/settings-modal-frame/settings-modal-frame.component';
-
+import { TableModule } from 'primeng/table';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,8 @@ import { SettingsModalFrameComponent } from './shared/settings-modal-frame/setti
   ],
   imports: [
     BrowserModule,
+    NgxPaginationModule,
+    TableModule,
     TooltipModule,
     NgSelectModule,
     NgxSelectModule,

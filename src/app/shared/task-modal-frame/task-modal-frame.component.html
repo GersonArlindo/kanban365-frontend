@@ -33,6 +33,7 @@
           type="datetime-local"
           name="partydate-start"
           [min]="minDateTime" 
+          [value]="startDate"
           (change)="getStartDateValue($event)"/>
         <label for="party-end">Hasta:</label>
         <input
@@ -40,15 +41,16 @@
           type="datetime-local"
           name="partydate-end"
           [min]="minDateTime" 
+          [value]="dueDate"
           (change)="getDueDateValue($event)"/>
       </div>
-    <label class="heading-s status-label">Assign to </label>
-    <ngx-select 
+    <label *ngIf="modalName === 'Add New Task'" class="heading-s status-label">Assign to </label>
+    <ngx-select  *ngIf="modalName === 'Add New Task'"
         [items]="users" 
         [(ngModel)]="opcionSeleccionadaUser"
         [multiple]="true"
         [autoClearSearch]="true"
-        placeholder="No users selected"
+        placeholder="No user selected"
         optionTextField="username"
         (selectionChanges)="doSelectOptions($event)">
     </ngx-select>

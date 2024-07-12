@@ -21,6 +21,7 @@ export interface Task{
     description: string
     status: string
     subtasks: Array<Subtask>
+    assignedUsers: Array<any>
     title: string
 }
 

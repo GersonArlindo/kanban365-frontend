@@ -1,4 +1,7 @@
 <app-task-modal-frame modalName="Edit Task"
+[startDate]="boardsService.currentTask.startDate"
+[dueDate]="boardsService.currentTask.dueDate"
+[durationText]="boardsService.currentTask.durationText"
 [titleValue]="boardsService.currentTask.title"
 [descriptionValue]="boardsService.currentTask.description"
 [subtasks]="subtaskCopy"

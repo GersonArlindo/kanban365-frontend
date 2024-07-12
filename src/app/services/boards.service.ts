@@ -34,6 +34,7 @@ export class BoardsService {
     description: "string",
     status: "string",
     subtasks: [],
+    assignedUsers: [],
     title: "string",
   }
   indexes = {

@@ -17,7 +17,9 @@ export class TaskModalFrameComponent implements OnInit {
     public modalShowService:ModalShowService,
     private UserSrv: AuthService
   ){}
-
+  @Input() startDate: string = ""
+  @Input() dueDate: string = ""
+  @Input() durationText: string = ""
   @Input() modalName:string = "";
   @Input() titleValue:string = "";
   @Input() descriptionValue:string = "";
@@ -31,9 +33,9 @@ export class TaskModalFrameComponent implements OnInit {
   @ViewChildren('templateSubtask') subtasksInputChildren!: QueryList<ElementRef<HTMLInputElement>>;
   users: any[] = []
   minDateTime!: string;
-  startDate: any
-  dueDate: any
-  durationText: string | undefined;
+  //startDate: any
+  //dueDate: any
+  //durationText: string | undefined;
   opcionSeleccionadaUser: any[] = []
   name = new FormControl('', Validators.required);
   indexes = this.boardsService.indexes;
@@ -89,6 +91,9 @@ export class TaskModalFrameComponent implements OnInit {
           title: title,
           description: description,
           status: status,
+          startDate: this.startDate, 
+          dueDate: this.dueDate, 
+          durationText: this.durationText,
           columnId: newColumn ? newColumn.id : currentColumn.id, // Use the new column id if status changed, otherwise use current column id
           subtasks: this.subtasks.filter(subtask => !!subtask.title)
       };
