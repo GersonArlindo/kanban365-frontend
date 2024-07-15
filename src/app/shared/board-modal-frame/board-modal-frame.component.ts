@@ -40,7 +40,7 @@ export class BoardModalFrameComponent implements OnInit {
 
   @ViewChildren('templateColumn') columnChildren!: QueryList<ElementRef<HTMLInputElement>>;
 
-  name = new FormControl('', [Validators.required, Validators.maxLength(21)]);
+  name = new FormControl('', [Validators.required, Validators.maxLength(60)]);
   indexes = this.boardsService.indexes;
   columnsCopy!: Array<Column>;
   columnPlaceholders = ["e.g Todo", "e.g Doing", "e.g Done", "e.g Now", "e.g Next", "e.g Later"]

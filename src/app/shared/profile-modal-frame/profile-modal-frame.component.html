@@ -13,7 +13,8 @@
         <div class="register-right">
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <h3 class="register-heading">Create User</h3><br><br>
+                    <h3 *ngIf="!this.UserSrv.userToEdit" class="register-heading">Create User</h3><br><br>
+                    <h3 *ngIf="this.UserSrv.userToEdit" class="register-heading">Edit User</h3><br><br>
                     <form [formGroup]="formCreateUser" (ngSubmit)="createUserHandler()">
                         <div class="register-form">
                             <div class="column">
@@ -32,17 +33,17 @@
                                 <div class="form-group">
                                     <div class="maxl">
                                         <label class="radio inline">
-                                            <input type="radio" name="rol" value="1" (change)="changeRole(1)">
+                                            <input type="radio" name="rol" value="1" (change)="changeRole(1)" [checked]="this.UserSrv?.userToEdit?.rol_id == 1">
                                             <span style="color: black;"> Admin </span>
                                         </label>
                                         &nbsp;
                                         <label class="radio inline">
-                                            <input type="radio" name="rol" value="2" (change)="changeRole(2)">
+                                            <input type="radio" name="rol" value="2" (change)="changeRole(2)" [checked]="this.UserSrv?.userToEdit?.rol_id == 2">
                                             <span style="color: black;"> User </span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" *ngIf="!this.UserSrv.userToEdit">
                                     <div class="check_container">
                                         <input id="checkbox" class="hidden" type="checkbox"
                                             (change)="externalUserHandler($event)">
@@ -70,12 +71,12 @@
                                 <div class="form-group">
                                     <div class="maxl">
                                         <label class="radio inline">
-                                            <input type="radio" name="status" value="1" (change)="changeStatus(1)">
+                                            <input type="radio" name="status" value="1" (change)="changeStatus(1)" [checked]="this.UserSrv?.userToEdit?.status == 1">
                                             <span style="color: black;"> Active </span>
                                         </label>
                                         &nbsp;
                                         <label class="radio inline">
-                                            <input type="radio" name="status" value="0" (change)="changeStatus(0)">
+                                            <input type="radio" name="status" value="0" (change)="changeStatus(0)" [checked]="this.UserSrv?.userToEdit?.status == 0">
                                             <span style="color: black;"> Inactive </span>
                                         </label>
                                     </div>
@@ -84,8 +85,9 @@
                                     <input type="hidden" class="form-control" placeholder="Enter Your Answer *"
                                         value="" />
                                 </div>
-                                <button type="submit" class="btnRegister"
+                                <button *ngIf="!this.UserSrv.userToEdit" type="submit" class="btnRegister"
                                     [disabled]="!formCreateUser.valid">Register</button>
+                                <button *ngIf="this.UserSrv.userToEdit" (click)="saveChangesHandle()" type="button" class="btnRegister">Save Changes</button>
                             </div>
                         </div>
                     </form>

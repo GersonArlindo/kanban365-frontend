@@ -3,6 +3,7 @@ import { ColorThemeService } from '../services/color-theme.service';
 import { SidebarToggleService } from '../services/sidebar-toggle.service';
 import { BoardsService } from '../services/boards.service';
 import { ModalShowService } from '../services/modal-show.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent  implements AfterViewInit   {
     public sidebarService:SidebarToggleService,
     public boardsService: BoardsService,
     public modalShowService: ModalShowService,
+    public UserService: AuthService
     ) {}
 
     ngAfterViewInit() {
@@ -31,6 +33,7 @@ export class HeaderComponent  implements AfterViewInit   {
 
     openViewProfileModal(){
       if(this.rol_name == 'Admin'){
+        this.UserService.userToEdit = null
         this.modalShowService.openViewProfileModal();
       }else{
         this.modalShowService.openViewProfileUserModal();

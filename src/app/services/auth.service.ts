@@ -5,18 +5,20 @@ import { SidebarToggleService } from './sidebar-toggle.service';
 import { Observable, catchError, map } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { HandlerErrorService } from './handler-error.service';
+import { ModalShowService } from './modal-show.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
+  userToEdit: any
   constructor(
     private http: HttpClient,
     private router: Router,
     public sidebarService: SidebarToggleService,
-    private HandlerErrorSrv: HandlerErrorService
+    private HandlerErrorSrv: HandlerErrorService,
+    public modalShowService: ModalShowService
   ) { }
 
   login(data:any) : Observable<any | void>{
@@ -31,6 +33,16 @@ export class AuthService {
 
   addUser(data: any) : Observable<any | void>{
     return this.http.post<any>(`${environment.API_URL}user/add`, data)
+    .pipe(
+      map((res:any)=> {
+        return res;
+      }),
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
+    );
+  }
+
+  updateUser(data: any, id: any) : Observable<any | void>{
+    return this.http.put<any>(`${environment.API_URL}user/update/${id}`, data)
     .pipe(
       map((res:any)=> {
         return res;
@@ -56,4 +68,32 @@ export class AuthService {
       catchError((err) => this.HandlerErrorSrv.handlerError(err))
     )
   } 
+
+  deactivateUser(data: any, id: any) : Observable<any | void>{
+    return this.http.put<any>(`${environment.API_URL}user/deactivate/${id}`, data)
+    .pipe(
+      map((res: any)=> {
+        return res;
+      }),
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
+    );
+  }
+
+  activateUser(data: any, id: any) : Observable<any | void>{
+    return this.http.put<any>(`${environment.API_URL}user/activate/${id}`, data)
+    .pipe(
+      map((res:any)=> {
+        return res;
+      }),
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
+    );
+  }
+
+  setUserToEdit(user: any){
+    this.userToEdit = user;
+    console.log(this.userToEdit)
+    this.modalShowService.showSettingsModal = false
+    this.modalShowService.openViewProfileModal();
+  }
+
 }

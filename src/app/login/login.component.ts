@@ -75,6 +75,7 @@ export class LoginComponent {
         }
       },
       (error) => {
+        console.log(error)
         switch (error) {
           case 'Bad Request':
             Swal.fire({

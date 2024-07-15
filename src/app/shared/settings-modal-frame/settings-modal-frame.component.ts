@@ -6,6 +6,7 @@ import { BoardsService } from 'src/app/services/boards.service';
 import { GhlApiKeyService } from 'src/app/services/ghl-api-key.service';
 import { ModalShowService } from 'src/app/services/modal-show.service';
 import { SidebarToggleService } from 'src/app/services/sidebar-toggle.service';
+import { TriggersFunctionService } from 'src/app/services/triggers-function.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,6 +26,8 @@ export class SettingsModalFrameComponent implements OnInit {
   locationId = new FormControl('', [Validators.required])
   ButtonTitle: boolean =  false
   users: any[] = []
+  triggerFunctions: any[] = []
+  selectedTriggers: any[] = []
   searchText: string = '';
   page: number = 1;
 
@@ -33,13 +36,21 @@ export class SettingsModalFrameComponent implements OnInit {
     public modalShowService:ModalShowService,
     public sidebarService:SidebarToggleService,
     public ghlApiKeyService: GhlApiKeyService,
-    public UserService: AuthService 
+    public UserService: AuthService,
+    public TriggerFunctionService: TriggersFunctionService
     ){}
   
   ngOnInit(){
     this.getUsers()
+    this.getTriggerFunctions()
   }
 
+  getTriggerFunctions(){
+    this.TriggerFunctionService.getTriggersFunctions()  
+    .subscribe((data:any)=>{
+      this.triggerFunctions = data
+    })
+  }
 
   getUsers(){
     this.UserService.getUsers()
@@ -191,4 +202,42 @@ export class SettingsModalFrameComponent implements OnInit {
       (user.status == 1 ? "Active" : "Inactive").toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
+
+  handleDeactivateUser(id: any){
+    const data: any = {
+      "not-value": 0
+    }
+    this.UserService.deactivateUser(data, id)
+      .subscribe((res: any) =>{
+        if(res.msj && res.msj == "User deactivated"){
+          this.getUsers()
+        }else{
+          alert("Oops, an error occurred")
+        }
+      })
+  }
+
+  handleActivateUser(id: any){
+    const data: any = {
+      "not-value": 0
+    }
+    this.UserService.activateUser(data, id)
+      .subscribe((res: any) =>{
+        if(res.msj && res.msj == "User activated"){
+          this.getUsers()
+        }else{
+          alert("Oops, an error occurred")
+        }
+      })
+  }
+
+  handleUpdateUser(user: any){
+    this.UserService.setUserToEdit(user)
+  }
+
+  triggerFunctionsSelectedHandler(event: any){
+    console.log(event);
+    
+  }
+
 }

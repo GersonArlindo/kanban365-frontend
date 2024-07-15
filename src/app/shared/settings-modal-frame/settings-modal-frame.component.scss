@@ -92,7 +92,7 @@ $secondary: $accent-inactive;
 
 
 /* tab setting */
-$tab-count: 4;
+$tab-count: 3; //*ESTA ES LA CANTIDAD DE PESTAÑAS QUE EL SLIDER SE MOVERA
 $indicator-width: 50px;
 $indicator-height: 4px;
 
@@ -424,3 +424,4 @@ th pSortableColumn {
   justify-content: space-between;
   align-items: center;
 }
+

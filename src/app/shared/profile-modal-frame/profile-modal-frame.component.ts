@@ -17,10 +17,10 @@ export class ProfileModalFrameComponent {
   selectedStatus: number = 1
   isExternalUser: boolean = false
   constructor(
-    formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private UserSrv: AuthService,
+    public UserSrv: AuthService,
     private openModalSrv: ModalShowService
   ){
     this.formCreateUser = formBuilder.group({
@@ -41,6 +41,18 @@ export class ProfileModalFrameComponent {
 
 
     ngOnInit(){
+      if(this.UserSrv.userToEdit){
+        this.formCreateUser = this.formBuilder.group({
+          first_name: [this.UserSrv.userToEdit.first_name, Validators.required],
+          last_name: [this.UserSrv.userToEdit.last_name, Validators.required],
+          email: [this.UserSrv.userToEdit.email, [Validators.required, Validators.email]],
+          phone_number: [this.UserSrv.userToEdit.phone_number, Validators.required],
+          password: ['', Validators.required],
+          confirm_password: ['', Validators.required]
+        })
+        this.selectedRole = this.UserSrv.userToEdit.rol_id
+        this.selectedStatus = this.UserSrv.userToEdit.status
+      }
     }
 
     createUserHandler(){
@@ -121,6 +133,64 @@ export class ProfileModalFrameComponent {
     externalUserHandler(event: any){
       this.isExternalUser = event.target.checked
       console.log(this.isExternalUser)
+    }
+
+    saveChangesHandle(){
+      const password: any = this.formCreateUser.value.password
+      const confirm_password: any = this.formCreateUser.value.confirm_password
+      const data: any = {
+        first_name: this.formCreateUser.value.first_name,
+        last_name: this.formCreateUser.value.last_name,
+        email: this.formCreateUser.value.email,
+        phone_number: this.formCreateUser.value.phone_number,
+        rol_id: this.selectedRole, // 1 = Admin , 2 = User
+        status: this.selectedStatus
+      }
+
+      if (password || confirm_password) {
+        if (password != confirm_password) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Passwords do not match!"
+          });
+          return;
+        }else{
+          data.password = password
+        }
+      }else{
+        data.password = null
+      }
+      
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, edit it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.UserSrv.updateUser(data, this.UserSrv.userToEdit.id)
+            .subscribe((res: any) => {
+              if(res && res.msj == "User updated"){
+                this.UserSrv.userToEdit = null
+                this.openModalSrv.darkBackground = false;
+                this.openModalSrv.showViewProfileModal = false
+                Swal.fire({
+                  title: "Edited!",
+                  text: "Your user has been successfully edited.",
+                  icon: "success"
+                });
+              }else{
+                this.UserSrv.userToEdit = null
+                alert("Oops, something went wrong")
+              }
+            })
+        }
+      });
+
     }
 
     logOut(){
