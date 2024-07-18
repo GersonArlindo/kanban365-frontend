@@ -142,20 +142,36 @@
         </section>
         <section style="color: black;">
             <div class="row">
-                <div class="col-sm">
+                <div class="col-sm div-scroll">
                     <h5>Trigger Functions</h5><br>
                     <div *ngFor="let trigger of this.triggerFunctions" class="field-checkbox">
                         <p-checkbox [(ngModel)]="selectedTriggers" [label]="trigger.name" name="group"
-                            [value]="trigger" (click)="triggerFunctionsSelectedHandler($event)"/>
+                            [value]="trigger" (onChange)="triggerFunctionsSelectedHandler()"/>
                     </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-sm div-scroll">
                     <h5>WorkFlows Associates</h5><br>
-                    <span>-- Not Found --</span>
-                    
+                    <main>
+                        <ol class="gradient-list">
+                            <ng-container *ngFor="let associateTriggerFunction of associatedTriggersFunctions">
+                                <li *ngIf="associateTriggerFunction.trigger_link">
+                                  {{ associateTriggerFunction.trigger_link.length > 20 ? (associateTriggerFunction.trigger_link | slice:0:20) + '...' : associateTriggerFunction.trigger_link }}&nbsp; <svg style="cursor: pointer;" (click)="copyToClipboard(associateTriggerFunction.trigger_link)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> &nbsp; <svg style="cursor: pointer;" (click)="eliminarWorkFlowAsociate(associateTriggerFunction.id)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </li>
+                              </ng-container>
+                        </ol>
+                      </main>
+                    <span *ngIf="this.associatedTriggersFunctions.length <= 0 ">Not Found</span>
                 </div>
-                <div class="col-sm">
+                <div class="col-sm div-scroll">
                     <h5>Linking workflows to</h5><br>
+                    <form>
+                        <label class="heading-s" for="title">Trigger Link</label>
+                        <span>
+                            <input [formControl]="trigger_link" class="text-input title-input" name="trigger_link" id="trigger_link" type="text" [value]="trigger_link" placeholder="https://...">
+                            <div class="error-message" *ngIf="trigger_link.invalid && (trigger_link.dirty || trigger_link.touched) && trigger_link.hasError('required')">Can't be empty</div>
+                        </span>
+                        <button  (click)="createTriggerLink($event)" class="btn button-primary-s submit">Create New Trigger Link</button>
+                    </form>
                 </div>
             </div>
 

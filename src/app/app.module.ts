@@ -57,7 +57,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ProfileModalFrameComponent,
     ProfileUserModalFrameComponent,
     PhoneMaskDirective,
-    SettingsModalFrameComponent
+    SettingsModalFrameComponent,
   ],
   imports: [
     BrowserModule,

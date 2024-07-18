@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
+import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { BoardsService } from 'src/app/services/boards.service';
 import { GhlApiKeyService } from 'src/app/services/ghl-api-key.service';
@@ -14,7 +15,9 @@ import Swal from 'sweetalert2';
   templateUrl: './settings-modal-frame.component.html',
   styleUrls: ['./settings-modal-frame.component.scss']
 })
+
 export class SettingsModalFrameComponent implements OnInit {
+[x: string]: any;
   @Input() ghlApiKeys!: any[]
   @Input() currentGhlApiKey!: any
   @Input() first_name:string = "";
@@ -24,12 +27,15 @@ export class SettingsModalFrameComponent implements OnInit {
   name = new FormControl('', [Validators.required, Validators.maxLength(50)]);
   apiKey = new FormControl('', [Validators.required] )
   locationId = new FormControl('', [Validators.required])
+  trigger_link = new FormControl('', [Validators.required])
   ButtonTitle: boolean =  false
   users: any[] = []
   triggerFunctions: any[] = []
   selectedTriggers: any[] = []
   searchText: string = '';
   page: number = 1;
+
+  associatedTriggersFunctions: any[] = []
 
   constructor(
     public boardsService:BoardsService,
@@ -98,6 +104,77 @@ export class SettingsModalFrameComponent implements OnInit {
         }
       })
   }
+
+  createTriggerLink(event: any) {
+    if (this.trigger_link.status === 'INVALID') {
+      this.trigger_link.markAsDirty();
+      return;
+    }
+    if (this.selectedTriggers.length <= 0) {
+      alert('Please select at least one trigger');
+      return;
+    }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const selectedTriggerIds = this.selectedTriggers.map(trigger => trigger.id);
+        const observables = selectedTriggerIds.map(element => {
+          const data = {
+            trigger_id: element,
+            trigger_link: this.trigger_link.value || '',
+            status: 1,
+          };
+          return this.TriggerFunctionService.addAssociatedTriggersFunctions(data);
+        });
+
+        // Usar forkJoin para esperar a que todas las solicitudes terminen
+        forkJoin(observables).subscribe(
+          (responses: any[]) => {
+            responses.forEach(res => {
+              if (res && res.msj === 'Created') {
+                // Aquí puedes lanzar tu toast
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  }
+                });
+                Toast.fire({
+                  icon: "success",
+                  title: "Correctly associated links"
+                });
+                this.triggerFunctionsSelectedHandler()
+              }else{
+                alert('There was a problem creating the associated triggers');
+              }
+            });
+          },
+          error => {
+            console.error('Error al crear triggers asociados', error);
+            // Aquí podrías mostrar un toast de error si lo deseas
+          alert('There was a problem creating the associated triggers');
+          }
+        );
+      }
+    });
+
+    
+
+  }
+
 
   editGhlApiKey(api: any){
     this.ButtonTitle = true
@@ -235,9 +312,54 @@ export class SettingsModalFrameComponent implements OnInit {
     this.UserService.setUserToEdit(user)
   }
 
-  triggerFunctionsSelectedHandler(event: any){
-    console.log(event);
-    
+  triggerFunctionsSelectedHandler() {
+    setTimeout(() => {
+      const selectedTriggerIds = this.selectedTriggers.map(trigger => trigger.id);
+      const payload = { ids: selectedTriggerIds };
+      this.TriggerFunctionService.getAssociatedTriggersFunctionsByArrayTriggerId(payload)
+        .subscribe((data: any) => {
+          this.associatedTriggersFunctions = data;
+          console.log(this.associatedTriggersFunctions);
+        });
+    });
+  }
+
+  eliminarWorkFlowAsociate(id: any){
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.TriggerFunctionService.deleteAssociatedTriggersFunctions(id)
+        .subscribe((res: any) => {
+          if(res && res.msj == 'Deleted'){
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Deleted Successfully"
+            });
+            this.triggerFunctionsSelectedHandler()
+          }else{
+            alert("oops, an error occurred")
+          }
+        })
+      }
+    });
   }
 
 }
